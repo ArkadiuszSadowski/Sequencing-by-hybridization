@@ -1,0 +1,6 @@
+c:\users\elisa\documents\visual studio 2015\Projects\bioInf\bioInf\bin\Debug\bioInf.exe.config
+c:\users\elisa\documents\visual studio 2015\Projects\bioInf\bioInf\bin\Debug\bioInf.exe
+c:\users\elisa\documents\visual studio 2015\Projects\bioInf\bioInf\bin\Debug\bioInf.pdb
+c:\users\elisa\documents\visual studio 2015\Projects\bioInf\bioInf\obj\Debug\bioInf.csprojResolveAssemblyReference.cache
+c:\users\elisa\documents\visual studio 2015\Projects\bioInf\bioInf\obj\Debug\bioInf.exe
+c:\users\elisa\documents\visual studio 2015\Projects\bioInf\bioInf\obj\Debug\bioInf.pdb
