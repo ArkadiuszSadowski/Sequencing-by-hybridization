@@ -6,31 +6,38 @@ using System.Threading.Tasks;
 
 namespace bioInf
 {
-    class Node
+    public class Node
     {
         private string value;
-       private int coverage;
-        
-        private List<Node> neighbourConnections;
+     
+        private int id;
+        private Dictionary<Node,int> neighbourConnections;
          public  Node(string value)
          {
-            neighbourConnections = new List<Node>();
+            neighbourConnections = new Dictionary<Node, int>();
            
             this.value = value;
          }
 
-        private void setCoverage(int coverage)
+        public void setId(int id)
         {
-            this.coverage = coverage;
+            this.id = id;
         }
 
-        public void addNeighbour(string neighbour)
+        public int getId()
         {
-            Node n = new Node(neighbour);
+            return id;
+        }
+
+   
+
+        public void addNeighbour(Node neighbour)
+        {
+            
            
-            int coverage = getCoverage(neighbour);
-            n.setCoverage(coverage);
-            neighbourConnections.Add(n);
+            int coverage = getCoverage(neighbour.getValue());
+            
+            neighbourConnections.Add(neighbour,coverage);
            
         }
 
@@ -62,12 +69,9 @@ namespace bioInf
 
         }
 
-        public int getSavedCoverageValue()
-        {
-            return coverage;
-        }
+     
 
-        public List<Node> getNeighbours()
+        public Dictionary<Node,int> getNeighbours()
         {
             return neighbourConnections;
         }
@@ -79,33 +83,26 @@ namespace bioInf
 
         public void sortNeighbours()
         {
-         
-            Node temp;
-
-            for (int write = 0; write < neighbourConnections.Count; write++)
+            Dictionary<Node, int> sortedNeighbours = new Dictionary<Node, int>();
+            foreach (KeyValuePair<Node, int> pair in neighbourConnections.OrderByDescending(key => key.Value))
             {
-                for (int sort = 0; sort < neighbourConnections.Count - 1; sort++)
-                {
-                    if (neighbourConnections[sort].getSavedCoverageValue() > neighbourConnections[sort + 1].getSavedCoverageValue())
-                    {
-                        temp = neighbourConnections[sort + 1];
-                        neighbourConnections[sort + 1] = neighbourConnections[sort];
-                        neighbourConnections[sort] = temp;
-                    }
-                }
+                sortedNeighbours.Add(pair.Key,pair.Value);
             }
 
-            neighbourConnections.Reverse(0, neighbourConnections.Count);
+           neighbourConnections.Clear();
+            neighbourConnections = sortedNeighbours;
+
+
 
         }
 
         public void printNeighbours()
         {
             sortNeighbours();
-            foreach (Node n in neighbourConnections)
+            foreach (KeyValuePair<Node,int> n in neighbourConnections)
             {
                
-                Console.Write( "Neighbour = {0}, Coverage = {1}", n.getValue(), n.getSavedCoverageValue());
+                Console.Write( "Neighbour = {0}, Coverage = {1}", n.Key.getValue(), n.Value);
                 Console.Write("\n");
             }
         }
