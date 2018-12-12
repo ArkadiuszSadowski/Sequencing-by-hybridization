@@ -8,15 +8,19 @@ namespace bioInf
 {
     class Program
     {
+        private static List<Node> errorsList;
         private static List<Node> graph;
         private static List<PossibleConnection> possibleBest;
         static void Main(string[] args)
         {
-            possibleBest= new List<PossibleConnection>();
-            string[] spectrum ={"ACT", "CTC", "GCC", "TCT", "TGG"};
+            errorsList= new List<Node>();
+            possibleBest = new List<PossibleConnection>();
+            string[] spectrum ={"ACT", "CTC", "GCC","CAA","TCT", "TGG"};
             graph = new List<Node>();
             createCompleteGraph(spectrum);
-            
+            getPossibleWays();
+            printConnections();
+
             // Node n = new Node("CTC");
             //n.addNeighbour("TCD");
             //n.printNeighbours();
@@ -26,13 +30,52 @@ namespace bioInf
 
         public static void createCompleteGraph(string[]spectrum)
         {
-            foreach (var word in spectrum)
+            for(int i=0; i<spectrum.Length;i++) 
             {   
-                Node n = new Node(word);
-      
+                Node n = new Node(spectrum[i]);
+                int next = i + 1;
+                if (next >= spectrum.Length)
+                {
+                    next = spectrum.Length-1;
+                }
+
               
-                graph.Add(n);
-                n.setId(graph.Count);
+                int before = i - 1;
+                if (before >= 0)
+                {
+
+
+
+                    if (graph[graph.Count-1].getCoverage(n.getValue()) == 0)
+                    {
+                        if (n.getCoverage(spectrum[next]) == 0)
+                        {
+                            errorsList.Add(n);
+                        }
+                        graph.Add(n);
+                        n.setId(graph.Count);
+
+                    }
+                    else
+                    {
+                        graph.Add(n);
+                        n.setId(graph.Count);
+                    }
+                }
+                else
+                {
+                    if ( n.getCoverage(spectrum[next]) == 0)
+                    {
+                        errorsList.Add(n);
+                    }
+                    else
+                    {
+                        graph.Add(n);
+                        n.setId(graph.Count);
+                    }
+                }
+
+
 
 
             }
@@ -46,21 +89,26 @@ namespace bioInf
                     {
                         node.addNeighbour(node1);
                     }
+                    
                 }
              
             }
+
+           
             printGraph();
-            getPossibleWays();
-            printConnections();
+           
 
 
         }
 
-    public static void printGraph()
+       
+
+
+        public static void printGraph()
         {
             foreach (var node in graph)
             {
-                Console.Write(node.getValue()+"    "+node.getId()+"\n");
+                Console.Write(node.getValue()+"    "+node.getId()+"    "+node.getError()+"\n");
                
                 node.printNeighbours();
                 Console.Write("\n");
@@ -70,13 +118,13 @@ namespace bioInf
 
         private static void getPossibleWays()
         {
-            foreach (var node in graph)
-            {
-                PossibleConnection pc = new PossibleConnection(node.getValue());
-                pc.addCoveredNodes(node);
-               getWay(pc,node);
+          
+            
+                PossibleConnection pc = new PossibleConnection(graph[0].getValue());
+                pc.addCoveredNodes(graph[0]);
+               getWay(pc, graph[0]);
                 possibleBest.Add(pc);
-            }
+            
 
 
         }
@@ -89,20 +137,21 @@ namespace bioInf
                 {
                     pc.addCoveredNodes(neighbour.Key);
                     StringBuilder sb = new StringBuilder();
-                    if (neighbour.Value!= 0)
-                    {
-
-                        string currentSuperstring = pc.getSuperString();
-                        string toadd = neighbour.Key.getValue()
-                            .Substring(neighbour.Key.getValue().Length-(neighbour.Key.getValue().Length - neighbour.Value));
-                        string superstring =sb.Append(currentSuperstring).Append(toadd).ToString();
-                        pc.setSuperString(superstring);
-                    }
-                    else
+                    
+                   if(neighbour.Value == 0 )
                     {
                         string currentSuperstring = pc.getSuperString();
                         string superstring = sb.Append(currentSuperstring).Append(" ").Append(neighbour.Key.getValue())
                             .ToString();
+                        pc.setSuperString(superstring);
+                    }
+                    else
+                    {
+                        
+                        string currentSuperstring = pc.getSuperString();
+                        string toadd = neighbour.Key.getValue()
+                            .Substring(neighbour.Key.getValue().Length - (neighbour.Key.getValue().Length - neighbour.Value));
+                        string superstring = sb.Append(currentSuperstring).Append(toadd).ToString();
                         pc.setSuperString(superstring);
                     }
 

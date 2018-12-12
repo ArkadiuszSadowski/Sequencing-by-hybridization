@@ -9,15 +9,26 @@ namespace bioInf
     public class Node
     {
         private string value;
-     
+        private bool isError;
         private int id;
         private Dictionary<Node,int> neighbourConnections;
          public  Node(string value)
          {
+             isError = false;
             neighbourConnections = new Dictionary<Node, int>();
            
             this.value = value;
          }
+
+        public void setError(bool error)
+        {
+            isError = error;
+        }
+
+        public bool getError()
+        {
+            return isError;
+        }
 
         public void setId(int id)
         {
@@ -34,14 +45,14 @@ namespace bioInf
         public void addNeighbour(Node neighbour)
         {
             
-           
+          
             int coverage = getCoverage(neighbour.getValue());
             
             neighbourConnections.Add(neighbour,coverage);
            
         }
 
-        private int getCoverage(string neighbourValue)
+        public int getCoverage(string neighbourValue)
         {
             int coverage = 0;
             if (neighbourValue.Equals(value))
