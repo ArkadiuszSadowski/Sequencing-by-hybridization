@@ -6,11 +6,13 @@ namespace bioInf
     {
         private string superString;
         private List<Node> mergedList;
+        private List<Node> errorList;
         private int cover;
         public PossibleConnection(string superstring)
         {
             this.superString = superstring;
             mergedList = new List<Node>();
+            errorList= new List<Node>();
             cover = 0;
 
         }
@@ -32,6 +34,15 @@ namespace bioInf
         public void addCoveredNodes(Node node)
         {
             mergedList.Add(node);
+        }
+        public List<Node> GetErrorList()
+        {
+            return errorList;
+        }
+
+        public void addErrorNode(Node node)
+        {
+            errorList.Add(node);
         }
         public int getSumCoverage()
         {
