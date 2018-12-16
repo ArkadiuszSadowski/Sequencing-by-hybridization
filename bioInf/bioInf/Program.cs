@@ -20,7 +20,7 @@ namespace bioInf
             //string[] spectrum = { "ACT", "CTC", "GCC", "TCT", "TGG" };
             possibleBest = new List<PossibleConnection>();
             Console.Write(
-                "Welcome to the   DNA hybridization simulator! \n Please follow the instructions printed on this screen.\n");
+                "Welcome to the DNA hybridization simulator! \nPlease follow the instructions printed on this screen.\n");
             Console.Write("Would you like to enter your own DNA sequence? y/n \n");
             string answer = "";
             answer = Console.ReadLine();
@@ -319,7 +319,7 @@ namespace bioInf
             }
 
 
-            //   printGraph();
+          //    printGraph();
 
 
 

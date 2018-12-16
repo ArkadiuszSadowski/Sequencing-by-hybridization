@@ -55,13 +55,13 @@ namespace bioInf
         public int getCoverage(string neighbourValue)
         {
             int coverage = 0;
-            if (neighbourValue.Equals(value))
+        /*    if (neighbourValue.Equals(value))
             {
                 coverage = neighbourValue.Length;
                 return coverage;
             }
             else
-            {
+            {*/
                 for (int i = 1; i < value.Length; i++)
                 {
 
@@ -73,7 +73,7 @@ namespace bioInf
 
 
                 }
-        }
+        //}
 
             return coverage;
 
